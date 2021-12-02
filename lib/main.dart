@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:provider/provider.dart';
 
 import 'package:weather_app_project/Src/Interface/homescreen.dart';
+import 'package:weather_app_project/Src/Modules/apimodule.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+MultiProvider(
+  providers: [
+    Provider (create: (context) => MainWeatherData()),
+],
+child: const MyApp(),
+),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -22,9 +29,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
 
-      home: const Scaffold(
-        body: HomeScreen(),
-      )
+      home: const HomeScreen(),
+
 
     );
   }
