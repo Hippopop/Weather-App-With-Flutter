@@ -8,7 +8,7 @@ void main() {
   runApp(
 MultiProvider(
   providers: [
-    Provider (create: (context) => MainWeatherData()),
+    ChangeNotifierProvider(create: (context) => MainWeatherData()),
 ],
 child: const MyApp(),
 ),
@@ -25,8 +25,27 @@ class MyApp extends StatelessWidget {
 
       title: "Weather App",
 
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      theme: ThemeData.light().copyWith(
+
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(
+            fontFamily: "Raleway",
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+            fontSize: 32,
+          ),
+            bodyText2: TextStyle(
+              fontFamily: "Raleway",
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
+            ),
+            subtitle1: TextStyle(
+              fontFamily: "Raleway",
+              color: Colors.white,
+              fontSize: 18,
+            )
+        )
       ),
 
       home: const HomeScreen(),

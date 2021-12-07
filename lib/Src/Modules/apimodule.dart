@@ -4,26 +4,30 @@ import 'package:http/http.dart' as web;
 
 class MainWeatherData with ChangeNotifier{
   late ModelClass _modelClass;
-
   ModelClass get getMainWeatherData => _modelClass;
 
-  Future<ModelClass> dataFetcher() async {
-    String url = "https://api.openweathermap.org/data/2.5/weather?q=Dhaka&appid=98020120367c4f6853e78032308972cd";
+  Future<void> dataFetcher() async {
+    //String url = "";
+    String url = "https://api.openweathermap.org/data/2.5/weather?q=Dhaka&units=metric&appid=98020120367c4f6853e78032308972cd";
     var jsonResponse = await web.get(Uri.parse(url));
-
-    if (jsonResponse.statusCode == 200) {
-
-      Map<String, dynamic> decodedJson = json.decode(jsonResponse.body);
+      final Map<String, dynamic> decodedJson = json.decode(jsonResponse.body);
       ModelClass decodedData = ModelClass.fromJson(decodedJson);
-      //print(decodedData.visibility);
+      _modelClass = decodedData;
+      print(decodedJson);
       notifyListeners();
-      return decodedData;
+      //return decodedData;
 
-    } else {
-      throw "Didn't received the data from web!!";
-    }
   }
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -52,15 +56,15 @@ class ModelClass {
   final List<Weather> weather;
   final String base;
   final Main main;
-  final int visibility;
+  final dynamic visibility;
   final Wind wind;
   final Clouds clouds;
-  final int dt;
+  final dynamic dt;
   final Sys sys;
-  final int timezone;
-  final int id;
+  final dynamic timezone;
+  final dynamic id;
   final String name;
-  final int cod;
+  final dynamic cod;
 
   factory ModelClass.fromJson(Map<String, dynamic> json) => ModelClass(
     coord: Coord.fromJson(json["coord"]),
@@ -100,7 +104,7 @@ class Clouds {
     required this.all,
   });
 
-  final int all;
+  final all;
 
   factory Clouds.fromJson(Map<String, dynamic> json) => Clouds(
     all: json["all"],
@@ -117,12 +121,12 @@ class Coord {
     required this.lat,
   });
 
-  final double lon;
-  final double lat;
+  final dynamic lon;
+  final dynamic lat;
 
   factory Coord.fromJson(Map<String, dynamic> json) => Coord(
-    lon: json["lon"].toDouble(),
-    lat: json["lat"].toDouble(),
+    lon: json["lon"],
+    lat: json["lat"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -141,18 +145,18 @@ class Main {
     required this.humidity,
   });
 
-  final double temp;
-  final double feelsLike;
-  final double tempMin;
-  final double tempMax;
-  final int pressure;
-  final int humidity;
+  final dynamic temp;
+  final dynamic feelsLike;
+  final dynamic tempMin;
+  final dynamic tempMax;
+  final dynamic pressure;
+  final dynamic humidity;
 
   factory Main.fromJson(Map<String, dynamic> json) => Main(
-    temp: json["temp"].toDouble(),
-    feelsLike: json["feels_like"].toDouble(),
-    tempMin: json["temp_min"].toDouble(),
-    tempMax: json["temp_max"].toDouble(),
+    temp: json["temp"],
+    feelsLike: json["feels_like"],
+    tempMin: json["temp_min"],
+    tempMax: json["temp_max"],
     pressure: json["pressure"],
     humidity: json["humidity"],
   );
@@ -176,11 +180,11 @@ class Sys {
     required this.sunset,
   });
 
-  final int type;
-  final int id;
+  final dynamic type;
+  final dynamic id;
   final String country;
-  final int sunrise;
-  final int sunset;
+  final dynamic sunrise;
+  final dynamic sunset;
 
   factory Sys.fromJson(Map<String, dynamic> json) => Sys(
     type: json["type"],
@@ -207,7 +211,7 @@ class Weather {
     required this.icon,
   });
 
-  final int id;
+  final dynamic id;
   final String main;
   final String description;
   final String icon;
@@ -234,14 +238,14 @@ class Wind {
     required this.gust,
   });
 
-  final double speed;
-  final int deg;
-  final double gust;
+  final dynamic speed;
+  final dynamic deg;
+  final dynamic gust;
 
   factory Wind.fromJson(Map<String, dynamic> json) => Wind(
-    speed: json["speed"].toDouble(),
+    speed: json["speed"],
     deg: json["deg"],
-    gust: json["gust"].toDouble(),
+    gust: json["gust"],
   );
 
   Map<String, dynamic> toJson() => {
